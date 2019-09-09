@@ -30,3 +30,21 @@ func TestAllOnesScores20(t *testing.T) {
 		t.Fatalf("score %s is incorrect", string(score))
 	}
 }
+
+func TestASpareFollowedByThreePinsThenAllMissesScores16(t *testing.T) {
+	game := bowling_game.New()
+
+	game.Roll(4)
+	game.Roll(6)
+
+	game.Roll(3)
+
+	for i := 1; i <= 18; i++ {
+		game.Roll(0)
+	}
+
+	score := game.Score()
+	if score != 16 {
+		t.Fatalf("score %s is incorrect", string(score))
+	}
+}
