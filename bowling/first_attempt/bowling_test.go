@@ -1,13 +1,13 @@
 package bowling_test
 
 import (
-	game "kata/bowling/first_attempt"
+	bowling_game "kata/bowling/first_attempt"
 	"testing"
 )
 
 func TestGutterGame(t *testing.T) {
-	g := game.New()
-	if g == nil {
+	game := bowling_game.New()
+	if game == nil {
 		t.Fatalf("")
 	}
 }
