@@ -39,7 +39,7 @@ func TestASpareFollowedByThreePinsThenAllMissesScores16(t *testing.T) {
 
 	game.Roll(3)
 
-	for i := 1; i <= 18; i++ {
+	for i := 1; i <= 17; i++ {
 		game.Roll(0)
 	}
 
