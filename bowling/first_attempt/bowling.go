@@ -1,45 +1,50 @@
 package bowling
 
 type Game struct {
-	score         int
-	frames        [10]Frame
-	gameProgress  int
-	frameProgress int
+	score    int
+	frames   [10]Frame
+	progress int
 }
 
 type Frame struct {
-	firstRoll  int
-	secondRoll int
+	firstRollScore  int
+	secondRollScore int
+	progress        RollInFrame
 }
+
+type RollInFrame int
+
+const (
+	FirstRoll RollInFrame = iota
+	SecondRoll
+)
 
 func New() *Game {
 	return &Game{
-		score:         0,
-		gameProgress:  0,
-		frameProgress: 0,
+		score:    0,
+		progress: 0,
 	}
 }
 
 func (g *Game) Roll(pins int) {
-	progress := g.gameProgress
+	progress := g.progress
 	frame := g.frames[progress]
-	if g.frameProgress == 0 {
-		frame.firstRoll = pins
-		if g.gameProgress > 0 {
-			lastFrame := g.frames[g.gameProgress-1]
-			lastFrameWasSpare := lastFrame.firstRoll+lastFrame.secondRoll == 10
+	if frame.progress == FirstRoll {
+		frame.firstRollScore = pins
+		if g.progress > 0 {
+			lastFrame := g.frames[g.progress-1]
+			lastFrameWasSpare := lastFrame.firstRollScore+lastFrame.secondRollScore == 10
 			if lastFrameWasSpare {
 				g.score += pins
 			}
 		}
-		g.frameProgress += 1
-		g.frames[g.gameProgress] = frame
+		frame.progress = SecondRoll
+		g.frames[g.progress] = frame
 
 	} else {
-		frame.secondRoll = pins
-		g.frames[g.gameProgress] = frame
-		g.gameProgress += 1
-		g.frameProgress = 0
+		frame.secondRollScore = pins
+		g.frames[g.progress] = frame
+		g.progress += 1
 	}
 
 	g.score += pins
