@@ -1,7 +1,7 @@
 package bowling
 
 type Game struct {
-	frames   [10]Frame
+	frames   [12]Frame
 	progress int
 }
 
@@ -37,18 +37,19 @@ func (g *Game) Roll(pins int) {
 
 	if frame.progress == FirstRoll {
 		frame.progress = SecondRoll
-		if lastFrameWasStrike {
-			frame.firstRollScore += pins * 2
-			g.frames[g.progress] = frame
-			return
-		}
-
 		if pins == 10 {
 			frame.firstRollScore = pins
 			g.frames[g.progress] = frame
 			g.progress += 1
 			return
 		}
+
+		if lastFrameWasStrike {
+			frame.firstRollScore += pins * 2
+			g.frames[g.progress] = frame
+			return
+		}
+
 		lastFrameWasSpare := lastFrame.firstRollScore+lastFrame.secondRollScore == 10
 		if lastFrameWasSpare {
 			frame.firstRollScore += pins * 2
