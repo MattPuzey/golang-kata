@@ -36,6 +36,7 @@ func (g *Game) Roll(pins int) {
 	}
 
 	if frame.progress == FirstRoll {
+		frame.progress = SecondRoll
 		if lastFrameWasStrike {
 			frame.firstRollScore += pins * 2
 			g.frames[g.progress] = frame
@@ -55,7 +56,6 @@ func (g *Game) Roll(pins int) {
 			return
 		}
 		frame.firstRollScore = pins
-		frame.progress = SecondRoll
 		g.frames[g.progress] = frame
 		return
 	}
