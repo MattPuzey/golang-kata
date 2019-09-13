@@ -29,25 +29,40 @@ func New() *Game {
 func (g *Game) Roll(pins int) {
 	progress := g.progress
 	frame := g.frames[progress]
+
+	var lastFrame Frame
+	if g.progress > 0 {
+		lastFrame = g.frames[g.progress-1]
+		lastFrameWasStrike := lastFrame.firstRollScore == 10
+		if lastFrameWasStrike {
+			g.score += pins * 2
+			return
+		}
+	}
+
 	if frame.progress == FirstRoll {
 		frame.firstRollScore = pins
-		if g.progress > 0 {
-			lastFrame := g.frames[g.progress-1]
-			lastFrameWasSpare := lastFrame.firstRollScore+lastFrame.secondRollScore == 10
-			if lastFrameWasSpare {
-				g.score += pins
-			}
+
+		if pins == 10 {
+			g.frames[g.progress] = frame
+			g.score += pins
+			g.progress += 1
+			return
+		}
+		lastFrameWasSpare := lastFrame.firstRollScore+lastFrame.secondRollScore == 10
+		if lastFrameWasSpare {
+			g.score += pins * 2
+			return
 		}
 		frame.progress = SecondRoll
 		g.frames[g.progress] = frame
-
+		g.score += pins
 	} else {
 		frame.secondRollScore = pins
 		g.frames[g.progress] = frame
+		g.score += pins
 		g.progress += 1
 	}
-
-	g.score += pins
 }
 
 func (g *Game) Score() int {
