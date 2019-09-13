@@ -6,6 +6,9 @@ import (
 )
 
 func TestGutterGame(t *testing.T) {
-	bowling_game.New()
+	game := bowling_game.New()
 
+	for i := 1; i <= 20; i++ {
+		game.Bowl(0)
+	}
 }
